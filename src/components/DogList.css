@@ -1,7 +1,6 @@
-main ul.dog__list {
-    width: 50%;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+h2 {
+    background-color: lavender;
+    padding: 30px;
+    margin: 20px;
+
 }
