@@ -1,11 +1,29 @@
 import "./App.css";
-import Driver from "./components/Driver";
+// import Driver from "./components/Driver";
+import DriverList from "./components/DriverList";
+
+const drivers = [
+  {
+    id: 0,
+    name: "Yuki Tsunoda",
+    team: "Alpha Tauri",
+    country: "Japan",
+    handsome: true,
+  },
+  {
+    id: 1,
+    name: "Carlos Sainz",
+    team: "Ferrari",
+    country: "Spain",
+    handsome: true,
+  },
+];
 
 function App() {
   return (
     <div>
       <h1>Drivers</h1>
-      <Driver></Driver>
+      <DriverList drivers={drivers} />
     </div>
   );
 }
