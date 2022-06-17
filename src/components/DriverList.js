@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 
 // arrow function
 const DriverList = (props) => {
+  // The Array.map() method creates a new array from the results of calling a function for every element.
   const driverComponents = props.drivers.map((driver) => {
     return (
       <Driver
-        id={driver.id}
+        key={driver.id}
         name={driver.name}
         team={driver.team}
         country={driver.country}
@@ -16,7 +17,6 @@ const DriverList = (props) => {
   });
   return (
     <div>
-      <h1>Drivers</h1>
       {driverComponents}
     </div>
   );

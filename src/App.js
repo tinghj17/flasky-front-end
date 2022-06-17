@@ -23,6 +23,7 @@ function App() {
   return (
     <div>
       <h1>Drivers</h1>
+      {/* like in oop, vender = Vender(driver=3) new instance of driverlist */}
       <DriverList drivers={drivers} />
     </div>
   );
