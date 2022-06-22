@@ -32,13 +32,15 @@ function App() {
     //   newDrivers.push(driver);
     // }
     // setDrivers(newDrivers);
+    const newDrivers = [];
     for (const driver of drivers) {
-      if (driver.id === id) {
-        driver.handsome = !driver.handsome;
+      const newDriver = { ...driver };
+      if (newDriver.id === id) {
+        newDriver.handsome = !newDriver.handsome;
       }
+      newDrivers.push(newDriver);
     }
-    const newDriver = [...drivers];
-    setDrivers(newDriver);
+    setDrivers(newDrivers);
   };
 
   const deleteDriver = (id) => {
