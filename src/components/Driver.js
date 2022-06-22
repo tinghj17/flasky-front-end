@@ -3,37 +3,48 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 
 const Driver = (props) => {
-  const [handsome, setHandsome] = useState(props.handsome);
-  const [country, setCountry] = useState(props.country);
+  // const [handsome, setHandsome] = useState(props.handsome);
+  // const [country, setCountry] = useState(props.country);
 
-  const flipHandsomeness = () => {
-    if (handsome) {
-      // handsome = flase; not working
-      setHandsome(false);
-    } else {
-      setHandsome(true);
-    }
+  // callback
+  // const flipHandsomeness = () => {
+  //   if (handsome) {
+  //     // handsome = flase; not working
+  //     setHandsome(false);
+  //   } else {
+  //     setHandsome(true);
+  //   }
+  // };
+
+  // const changeCountryName = (event) => {
+  //   setCountry(event.target.value)
+  // }
+
+  // I have access to props.handsomeCallback here
+  const flipMyHandsome = () => {
+    props.handsomeCallback(props.id);
   };
 
-  const changeCountryName = (event) => {
-    setCountry(event.target.value)
-  }
-
+  const deleteMe = () => {
+    props.deleteCallback(props.id);
+  };
   return (
     <div>
       {/* <h2>Yuki Tsunoda</h2> */}
       <h2 className="driver__name">{props.name}</h2>
       <ul>
         <li>Team: {props.team}</li>
-        <li>Country: {country}</li>
+        <li>Country: {props.country}</li>
         {/* convert it to string to make boolean show up*/}
         {/* handsome is a state var, not props.handsome*/}
         {/* <li>Handsome: {handsome.toString()}</li> */}
-        <li>Handsome: {handsome ? "Hella" : "Not for me"}</li>
+        <li>Handsome: {props.handsome ? "Hella" : "Not for me"}</li>
         {/* do not add () at the end of flipHandsomeness */}
-        <button onClick={flipHandsomeness}>Change Handsomeness</button>
-        Set Country
-        <input type="text" value={country} onChange={changeCountryName}></input>
+
+        <button onClick={flipMyHandsome}>Change Handsomeness</button>
+        <button onClick={deleteMe}>Delete</button>
+        {/* Set Country */}
+        {/* <input type="text" value={country} onChange={changeCountryName}></input> */}
       </ul>
     </div>
   );
