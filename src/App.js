@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import DriverForm from "./components/DriverForm";
 
-
 const kBaseUrl = "http://127.0.0.1:5000";
 
 const getDrivers = () => {
@@ -90,6 +89,18 @@ function App() {
     );
   };
 
+  const addDriver = (driverInfo) => {
+    axios
+      .post(`${kBaseUrl}/drivers`, driverInfo)
+      .then((response) => {
+        console.log(response);
+        updateDrivers();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <h1>Drivers</h1>
@@ -99,7 +110,7 @@ function App() {
         handsomeCallback={flipHandsome}
         deleteCallback={deleteDriver}
       />
-      <DriverForm></DriverForm>
+      <DriverForm addDriverCallback={addDriver}></DriverForm>
     </div>
   );
 }
