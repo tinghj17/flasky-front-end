@@ -3,6 +3,8 @@ import "./App.css";
 import DriverList from "./components/DriverList";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import DriverForm from "./components/DriverForm";
+
 
 const kBaseUrl = "http://127.0.0.1:5000";
 
@@ -17,14 +19,39 @@ const getDrivers = () => {
       console.log(err);
     }); // promise 3
 };
+
+const flipHandsomeHelper = (id) => {
+  return axios
+    .patch(`${kBaseUrl}/drivers/${id}/fliphandsome`) //promise 1
+    .then((response) => {
+      // response is an object
+      return response.data;
+    }) //promise 2
+    .catch((err) => {
+      console.log(err);
+    }); // promise 3
+};
+
+const deleteDriversHelper = (id) => {
+  return axios
+    .delete(`${kBaseUrl}/drivers/${id}`) //promise 1
+    .catch((err) => {
+      console.log(err);
+    }); // promise 2
+};
+
+//////////////////////////////////////////////////////
+
 function App() {
   const [drivers, setDrivers] = useState([]);
 
   const updateDrivers = () => {
     getDrivers()
-    .then(drivers => {
-      setDrivers(drivers);
-    });
+      //get drivers from line 14 return response.data
+      // chain on callback
+      .then((drivers) => {
+        setDrivers(drivers);
+      });
   };
 
   // useEffect to get data from api
@@ -34,34 +61,33 @@ function App() {
 
   // everytime we call this function, we replace it with a new array
   const flipHandsome = (id) => {
-    // const newDrivers = [];
-    // // create a copy with new changes
-    // for (const driver of drivers) {
-    //   if (driver.id === id) {
-    //     driver.handsome = !driver.handsome;
-    //   }
-    //   newDrivers.push(driver);
-    // }
-    // setDrivers(newDrivers);
-    const newDrivers = [];
-    for (const driver of drivers) {
-      const newDriver = { ...driver };
-      if (newDriver.id === id) {
-        newDriver.handsome = !newDriver.handsome;
-      }
-      newDrivers.push(newDriver);
-    }
-    setDrivers(newDrivers);
+    flipHandsomeHelper(id).then(() => {
+      setDrivers((oldData) => {
+        const newDrivers = [];
+        for (const driver of oldData) {
+          const newDriver = { ...driver };
+          if (newDriver.id === id) {
+            newDriver.handsome = !newDriver.handsome;
+          }
+          newDrivers.push(newDriver);
+        }
+        return newDrivers;
+      });
+    });
   };
 
   const deleteDriver = (id) => {
-    const newDrivers = [];
-    for (const driver of drivers) {
-      if (driver.id !== id) {
-        newDrivers.push(driver);
-      }
-    }
-    setDrivers(newDrivers);
+    deleteDriversHelper(id).then(
+      setDrivers((oldData) => {
+        const newDrivers = [];
+        for (const driver of oldData) {
+          if (driver.id !== id) {
+            newDrivers.push(driver);
+          }
+        }
+        return newDrivers;
+      })
+    );
   };
 
   return (
@@ -73,6 +99,7 @@ function App() {
         handsomeCallback={flipHandsome}
         deleteCallback={deleteDriver}
       />
+      <DriverForm></DriverForm>
     </div>
   );
 }
