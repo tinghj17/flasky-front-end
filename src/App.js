@@ -6,24 +6,32 @@ import axios from "axios";
 
 const kBaseUrl = "http://127.0.0.1:5000";
 
+const getDrivers = () => {
+  return axios
+    .get(`${kBaseUrl}/drivers`) //promise 1
+    .then((response) => {
+      // response is a list of object
+      return response.data;
+    }) //promise 2
+    .catch((err) => {
+      console.log(err);
+    }); // promise 3
+};
 function App() {
   const [drivers, setDrivers] = useState([]);
 
+  const updateDrivers = () => {
+    getDrivers()
+    .then(drivers => {
+      setDrivers(drivers);
+    });
+  };
+
   // useEffect to get data from api
   useEffect(() => {
-    axios
-      .get(`${kBaseUrl}/drivers`)
-      .then((response) => {
-        // response is a list of object
-        const drivers = response.data;
-        setDrivers(drivers);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    updateDrivers();
   }, []);
 
-  
   // everytime we call this function, we replace it with a new array
   const flipHandsome = (id) => {
     // const newDrivers = [];
