@@ -1,26 +1,29 @@
 import "./App.css";
 // import Driver from "./components/Driver";
 import DriverList from "./components/DriverList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const kBaseUrl = "http://127.0.0.1:5000";
 
 function App() {
-  const [drivers, setDrivers] = useState([
-    {
-      id: 0,
-      name: "Yuki Tsunoda",
-      team: "Alpha Tauri",
-      country: "Japan",
-      handsome: true,
-    },
-    {
-      id: 1,
-      name: "Carlos Sainz",
-      team: "Ferrari",
-      country: "Spain",
-      handsome: true,
-    },
-  ]);
+  const [drivers, setDrivers] = useState([]);
 
+  // useEffect to get data from api
+  useEffect(() => {
+    axios
+      .get(`${kBaseUrl}/drivers`)
+      .then((response) => {
+        // response is a list of object
+        const drivers = response.data;
+        setDrivers(drivers);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  
   // everytime we call this function, we replace it with a new array
   const flipHandsome = (id) => {
     // const newDrivers = [];
@@ -67,3 +70,20 @@ function App() {
 }
 
 export default App;
+
+// [
+//   {
+//     id: 0,
+//     name: "Yuki Tsunoda",
+//     team: "Alpha Tauri",
+//     country: "Japan",
+//     handsome: true,
+//   },
+//   {
+//     id: 1,
+//     name: "Carlos Sainz",
+//     team: "Ferrari",
+//     country: "Spain",
+//     handsome: true,
+//   },
+// ]
